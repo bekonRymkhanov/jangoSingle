@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Details about {{ mypost.title }}
+{% endblock %}
+
+
+{% block content %}
+<h1>{{ mypost.title }} </h1>
+  
+<p>description: {{ mypost.content }}</p>
+<p>creation date: {{ mypost.created_at }}</p>
+<p>author: <a href="{% url 'profile' mypost.author %}">{{ mypost.author }}</a></p>
+{% for x in comments %}
+<li>
+  <a href="/blog/comment/{{ x.id }}">
+    <span style="font-weight: bold;">{{ x.author }}</span> 
+    <span style="color: green; margin-left: 10px;">{{ x.created_at|date:"F j, Y, g:i a" }}</span>
+    <span style="color: gray; margin-left: 10px;">{{ x.content}}</span>
+
+  </a>
+</li>
+{% endfor %}
+<p><a href="{% url 'edit_post' mypost.id %}">Edit Post</a></p> 
+
+
+<p><a href="{% url 'create_comment' mypost.id %}">create comment</a></p> 
+
+
+</ul>
+<form action="{% url 'delete_post' mypost.id %}" method="post">
+  {% csrf_token %}
+  <input type="submit" value="Yes, delete">
+</form>
+<p>Back to <a href="/blog/listBlogs">list</a></p>
+{% endblock %}

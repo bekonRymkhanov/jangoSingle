@@ -1,0 +1,15 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Details about {{ myitem.name }}
+{% endblock %}
+
+
+{% block content %}
+<h1>{{ myitem.name }} </h1>
+  
+<p>description: {{ myitem.description }}</p>
+
+<p>Back to <a href="/catalogue/listItems">list</a></p>
+  
+{% endblock %}

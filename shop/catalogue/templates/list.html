@@ -1,0 +1,19 @@
+
+{% extends "master.html" %}
+
+{% block title %}
+   List of all Items
+{% endblock %}
+
+
+{% block content %}
+  <h1>List</h1>
+  
+  <ul>
+    <p><a href="/catalogue">HOME</a></p>
+
+    {% for x in myitems %}
+    <li><a href="details/{{ x.id }}">{{ x.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
