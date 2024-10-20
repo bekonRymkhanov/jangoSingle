@@ -52,20 +52,7 @@ def edit_profile(request,username):
 
     return render(request, 'edit_profile.html', {'form': form})
 
-@login_required
-def follow_user(request, username):
-    user_to_follow = get_object_or_404(User, username=username)
-    if request.user != user_to_follow:
-        Follow.objects.get_or_create(follower=request.user, following=user_to_follow)
-    return redirect('profile', username=username)
 
-@login_required
-def unfollow_user(request, username):
-    user_to_unfollow = get_object_or_404(User, username=username)
-    follow = Follow.objects.filter(follower=request.user, following=user_to_unfollow).first()
-    if follow:
-        follow.delete()
-    return redirect('profile', username=username)
 
 def main(request):
     return render(request,template_name='mainu.html')
