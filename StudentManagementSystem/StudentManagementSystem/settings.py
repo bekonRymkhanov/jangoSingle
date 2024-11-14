@@ -29,7 +29,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt.token_blacklist',
+
     'djoser',
+    
     'django_celery_beat',
 
 
@@ -141,13 +144,29 @@ DJOSER = {
     },
 }
 
+AUTH_USER_MODEL = 'users.User'
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 3,
+
+
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '1000/day',
+    },
 }
 
 SIMPLE_JWT = {
@@ -171,19 +190,85 @@ CELERY_TASK_ALWAYS_EAGER = False
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
+    'formatters': {
+        'verbose': {  # Define the verbose formatter here
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
+    'handlers': {
+        'file_grades': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/grades.log',
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        'file_attendance': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/attendance.log',
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        'file_courses': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/courses.log',
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        'file_students': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/students.log',
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        'file_users': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/users.log',
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+    },
+'loggers': {
+        'grades': {
+            'handlers': ['file_grades'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'attendance': {
+            'handlers': ['file_attendance'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'courses': {
+            'handlers': ['file_courses'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'students': {
+            'handlers': ['file_students'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'users': {
+            'handlers': ['file_users'],
+            'level': 'INFO',
+            'propagate': False,
         },
     },
 }
 
+
+# JWT Configuration
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}

@@ -10,3 +10,4 @@ class Course(models.Model):
 class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrolled_at = models.DateField(auto_now_add=True)
