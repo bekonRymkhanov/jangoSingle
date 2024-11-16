@@ -8,6 +8,10 @@ class Course(models.Model):
     instructor = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': 'teacher'})
 
 class Enrollment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        Student,
+        related_name="enrollments",  # This allows you to access enrollments via `student.enrollments`
+        on_delete=models.CASCADE
+    )
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrolled_at = models.DateField(auto_now_add=True)

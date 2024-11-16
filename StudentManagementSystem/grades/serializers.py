@@ -10,6 +10,6 @@ class GradeSerializer(serializers.ModelSerializer):
     teacher = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role='teacher'))
     class Meta:
         model = Grade
-        fields = ['id', 'student', 'course', 'grade', 'date']
+        fields = ['id', 'student', 'course', 'grade', 'date','teacher']
     def create(self, validated_data):
         return Grade.objects.create(**validated_data)

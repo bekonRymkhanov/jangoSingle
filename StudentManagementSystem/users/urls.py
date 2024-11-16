@@ -7,6 +7,4 @@ router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),  # for JWT authentication
 ]

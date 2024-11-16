@@ -8,7 +8,7 @@ from rest_framework import viewsets
 from students.models import Student
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-
+from rest_framework.filters import SearchFilter
 
 logger = logging.getLogger('grades')
 
@@ -18,6 +18,9 @@ class GradeViewSet(viewsets.ModelViewSet):
     queryset = Grade.objects.all()
     serializer_class = GradeSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [SearchFilter]
+    search_fields = ['grade','date']
+   
 
 
     def get_permissions(self):

@@ -4,6 +4,7 @@ from students.models import Student
 from users.models import User
 
 class CourseSerializer(serializers.ModelSerializer):
+    
     instructor = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role='teacher'))
 
     class Meta:
@@ -15,7 +16,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):
-    course = CourseSerializer()
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
 
     class Meta:
@@ -24,9 +25,11 @@ class EnrollmentSerializer(serializers.ModelSerializer):
 
         
     def create(self, validated_data):
-        student_data = validated_data.pop('student')
+        student_data = validated_data.pop('student') 
         course_data = validated_data.pop('course')
-        student = Student.objects.get(user__email=student_data['user']['email'])
-        course = Course.objects.get(name=course_data['name'])
+        
+        student = Student.objects.get(id=student_data.id)  
+        course = Course.objects.get(id=course_data.id) 
+        
         enrollment = Enrollment.objects.create(student=student, course=course, **validated_data)
         return enrollment

@@ -14,7 +14,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         student_data = validated_data.pop('student')
         course_data = validated_data.pop('course')
-        student = Student.objects.get(user__email=student_data['user']['email'])
-        course = Course.objects.get(name=course_data['name'])
+        student = Student.objects.get(id=student_data.id)  
+        course = Course.objects.get(id=course_data.id)
         attendance = Attendance.objects.create(student=student, course=course, **validated_data)
         return attendance

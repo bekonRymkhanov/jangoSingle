@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from students.models import Student
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-
+from rest_framework.filters import SearchFilter
 
 logger = logging.getLogger('attendance')
 
@@ -16,6 +16,8 @@ class AttendanceViewSet(viewsets.ModelViewSet):
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [SearchFilter]
+    search_fields = ['date','status']
    
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:

@@ -6,6 +6,8 @@ from .exeptions import ItemNotFoundException  # custom exception handler
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework.filters import SearchFilter
+
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +15,11 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]  # Restrict to authenticated users
+    filter_backends = [SearchFilter]
+    search_fields = ['email','role']
+   
+
+
 
     def perform_create(self, serializer):
         super().perform_create(serializer)

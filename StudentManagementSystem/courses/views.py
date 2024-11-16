@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework.filters import SearchFilter
 
 
 
@@ -18,6 +19,8 @@ logger = logging.getLogger('courses')
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['name', 'description']
 
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
@@ -38,6 +41,9 @@ class CourseViewSet(viewsets.ModelViewSet):
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['enrolled_at']
+   
 
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:

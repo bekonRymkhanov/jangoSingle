@@ -29,10 +29,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework_simplejwt.token_blacklist', 
 
     'djoser',
-    
+
     'django_celery_beat',
 
 
@@ -169,10 +169,6 @@ REST_FRAMEWORK = {
     },
 }
 
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('JWT',),
-}
-
 
 CACHES = {
     'default': {
@@ -182,8 +178,8 @@ CACHES = {
 }
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
 CELERY_TASK_ALWAYS_EAGER = False
 
 
